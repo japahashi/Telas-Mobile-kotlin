@@ -1,5 +1,6 @@
 package com.example.helloworld
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.LinearGradient
@@ -18,7 +19,6 @@ import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,12 +51,12 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.helloworld.ui.theme.HelloWorldTheme
-import com.example.helloworld.view.ScreenHome
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.atan2
@@ -70,6 +71,8 @@ import android.graphics.Canvas as AndroidCanvas
 import android.graphics.Paint as AndroidPaint
 import android.graphics.Path as AndroidPath
 import android.graphics.Rect as AndroidRect
+
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,6 +98,8 @@ class MainActivity : ComponentActivity() {
 // TELA PRINCIPAL
 // ============================================================================
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
+@Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
 
@@ -116,6 +121,7 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
     }
 
     BoxWithConstraints(modifier = modifier) {
+
 
         val screenW = with(density) {
             maxWidth.roundToPx().coerceAtLeast(1)
@@ -147,28 +153,33 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
         }
 
         // Card com efeito Liquid Glass
+        // Card com efeito Liquid Glass estático e posicionado manualmente
         LiquidGlassSurface(
             engine = engine,
             cornerRadius = 24.dp,
             refractionHeight = 22.dp,
             refractionAmount = 22.dp,
             modifier = Modifier
-                .align(Alignment.Center)
-                .offset {
-                    IntOffset(
-                        dragOffset.x.roundToInt(),
-                        dragOffset.y.roundToInt()
-                    )
-                }
-                .pointerInput(Unit) {
-                    detectDragGestures { change, dragAmount ->
-                        change.consume()
-                        dragOffset += dragAmount
-                    }
-                }
-                .size(325.dp, 210.dp)
+                .align(Alignment.TopStart)
+                .offset(x = 20.dp, y = 205.dp)
+                .size(375.dp, 514.dp)
         ) {
-
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(24.dp) // Padding opcional para margem de segurança
+            ) {
+                // O Text agora pode ser posicionado exatamente onde você quiser usando .offset()
+                Text(
+                    text = "Olá Manoel",
+                    color = Color(0xFF2C3E35),
+                    fontSize = 28.sp,
+                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                    modifier = Modifier
+                        .align(Alignment.TopCenter) // Ponto de partida (canto superior esquerdo)
+                        .offset(y = 15.dp) // Ajuste os valores exatos de X e Y aqui
+                )
+            }
         }
     }
 }
@@ -718,7 +729,7 @@ class GlassCardAssets(
             // Fundo de vidro com opacidade mais uniforme
             paint.shader = LinearGradient(
                 0f, 0f, w, h,
-                intArrayOf(0x20FFFFFF, 0x79FFFFFF, 0x79FFFFFF),
+                intArrayOf(0x60FFFFFF, 0x0FFFFFF, 0x60FFFFFF),
                 floatArrayOf(0f, 0.5f, 1f),
                 Shader.TileMode.CLAMP
             )
@@ -732,8 +743,8 @@ class GlassCardAssets(
             val ry = (h * 0.85f).coerceAtLeast(1f)
             val radialShader = RadialGradient(
                 cx, cy, rx,
-                intArrayOf(0x00FFFFFF, 0x00FFFFFF, 0x00FFFFFF),
-                floatArrayOf(0f, 0.50f, 1f),
+                intArrayOf(0x79FFFFFF, 0x49FFFFFF, 0x79FFFFFF),
+                floatArrayOf(0f, 0.5f, 1f),
                 Shader.TileMode.CLAMP
             )
             val ellipseMatrix = Matrix().apply {
