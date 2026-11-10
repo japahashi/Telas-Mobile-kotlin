@@ -17,6 +17,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.Box
@@ -51,6 +53,10 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
@@ -71,9 +77,13 @@ import android.graphics.Canvas as AndroidCanvas
 import android.graphics.Paint as AndroidPaint
 import android.graphics.Path as AndroidPath
 import android.graphics.Rect as AndroidRect
+import androidx.compose.ui.text.font.Font
 
 
 
+val AliceFontFamily = FontFamily(
+    Font(R.font.alice_regular, FontWeight.Normal, FontStyle.Normal)
+)
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -173,16 +183,75 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
                 Text(
                     text = "Olá Manoel",
                     color = Color(0xFF2C3E35),
-                    fontSize = 28.sp,
-                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                    fontSize = 33.sp,
+                    fontFamily = AliceFontFamily,
+                    fontWeight = FontWeight.ExtraBold,
                     modifier = Modifier
                         .align(Alignment.TopCenter) // Ponto de partida (canto superior esquerdo)
                         .offset(y = 15.dp) // Ajuste os valores exatos de X e Y aqui
                 )
+                Text(
+                    text = "Vamos conversar?",
+                    color = Color(0xFF5C6754),
+                    fontSize = 20.sp,
+                    fontFamily = AliceFontFamily,
+                    fontWeight = FontWeight.ExtraBold,
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .offset(y = 56.dp)
+                )
+                Image(
+                    painter = painterResource(id= R.drawable.happy_capybara),
+                    contentDescription = "logo capvivara",
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .offset(y = 90.dp)
+                        .size(160.dp)
+
+
+                )
             }
         }
+        Box(
+            modifier = Modifier
+                .align(Alignment.Center) // Centralizado dentro do card principal (ou ajuste com .offset)
+                .offset( -85.dp,80.dp)
+                .size(135.dp, 60.dp)   // Largura e altura do card interno
+                .clip(RoundedCornerShape(16.dp)) // Cantos arredondados
+                .background(Color.White.copy(alpha = 0.4f)) // Fundo translúcido
+
+        ) {
+            Text(
+                text = "Quero refletir",
+                color = Color(0xFF2C3E35),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.ExtraBold,
+                fontFamily = AliceFontFamily,
+                modifier = Modifier
+                    .align(Alignment.Center)
+            )
+        }
+        Box(
+            modifier = Modifier
+                .align(Alignment.Center) // Centralizado dentro do card principal (ou ajuste com .offset)
+                .offset( 90.dp,80.dp)
+                .size(135.dp, 60.dp)   // Largura e altura do card interno
+                .clip(RoundedCornerShape(16.dp)) // Cantos arredondados
+                .background(Color.White.copy(alpha = 0.4f)) // Fundo translúcido
+
+        ) {
+            Text(
+                text = "Quero refletir",
+                color = Color(0xFF2C3E35),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.ExtraBold,
+                fontFamily = AliceFontFamily,
+                modifier = Modifier
+                    .align(Alignment.Center)
+            )
+        }
+        }
     }
-}
 
 
 // ============================================================================
