@@ -25,12 +25,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -78,7 +82,7 @@ import android.graphics.Paint as AndroidPaint
 import android.graphics.Path as AndroidPath
 import android.graphics.Rect as AndroidRect
 import androidx.compose.ui.text.font.Font
-
+import androidx.compose.ui.text.style.LineHeightStyle
 
 
 val AliceFontFamily = FontFamily(
@@ -112,6 +116,8 @@ class MainActivity : ComponentActivity() {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
+
+    var textoDigitado by remember { mutableStateOf("") }
 
     val density = LocalDensity.current
 
@@ -215,12 +221,28 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .align(Alignment.Center) // Centralizado dentro do card principal (ou ajuste com .offset)
-                .offset( -85.dp,80.dp)
-                .size(135.dp, 60.dp)   // Largura e altura do card interno
+                .offset( -80.dp,80.dp)
+                .size(150.dp, 60.dp)   // Largura e altura do card interno
                 .clip(RoundedCornerShape(16.dp)) // Cantos arredondados
-                .background(Color.White.copy(alpha = 0.4f)) // Fundo translúcido
+                .background(Color.White.copy(alpha = 0.55f)) // Fundo translúcido
 
         ) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .offset(x = 10.dp)
+                    .size(23.dp, 23.dp)
+                    .clip(RoundedCornerShape(150.dp))
+                    .background(Color(0xFF435F3F))
+            )
+            Image(
+                painter = painterResource(id = R.drawable.cloud),
+                contentDescription = "Nuvem",
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .size(15.dp)
+                    .offset(14.dp))
+
             Text(
                 text = "Quero refletir",
                 color = Color(0xFF2C3E35),
@@ -229,19 +251,44 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
                 fontFamily = AliceFontFamily,
                 modifier = Modifier
                     .align(Alignment.Center)
+                    .offset(9.dp)
+            )
+            Image(
+                painter = painterResource(id = R.drawable.arrow_right),
+                contentDescription = "Seta esquerda",
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .size(20.dp, 20.dp)
+                    .offset(-3.dp)
             )
         }
         Box(
             modifier = Modifier
                 .align(Alignment.Center) // Centralizado dentro do card principal (ou ajuste com .offset)
-                .offset( 90.dp,80.dp)
-                .size(135.dp, 60.dp)   // Largura e altura do card interno
+                .offset( 85.dp,80.dp)
+                .size(150.dp, 60.dp)   // Largura e altura do card interno
                 .clip(RoundedCornerShape(16.dp)) // Cantos arredondados
-                .background(Color.White.copy(alpha = 0.4f)) // Fundo translúcido
+                .background(Color.White.copy(alpha = 0.55f)) // Fundo translúcido
 
         ) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .offset(x = 10.dp)
+                    .size(23.dp, 23.dp)
+                    .clip(RoundedCornerShape(150.dp))
+                    .background(Color(0xFF435F3F))
+            )
+            Image(
+                painter = painterResource(id = R.drawable.sun),
+                contentDescription = "Sol",
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .size(15.dp)
+                    .offset(14.dp))
+
             Text(
-                text = "Quero refletir",
+                text = "Meu dia",
                 color = Color(0xFF2C3E35),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.ExtraBold,
@@ -249,9 +296,136 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .align(Alignment.Center)
             )
+            Image(
+                painter = painterResource(id = R.drawable.arrow_right),
+                contentDescription = "Seta esquerda",
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .size(20.dp, 20.dp)
+                    .offset(-3.dp)
+            )
         }
+        Box(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .offset(85.dp, 155.dp)
+                .size(150.dp, 60.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .background(Color.White.copy(alpha = 0.55f))
+        ){
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .offset(x = 10.dp)
+                    .size(23.dp, 23.dp)
+                    .clip(RoundedCornerShape(150.dp))
+                    .background(Color(0xFF435F3F))
+            )
+            Image(
+                painter = painterResource(id = R.drawable.heart),
+                contentDescription = "Coração",
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .size(15.dp)
+                    .offset(14.dp))
+
+            Text(
+                text = "Só na\nconversa",
+                lineHeight = 15.sp,
+                color = Color(0xFF344530),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.ExtraBold,
+                fontFamily = AliceFontFamily,
+                modifier = Modifier
+                    .align(Alignment.Center)
+            )
+            Image(
+                painter = painterResource(id = R.drawable.arrow_right),
+                contentDescription = "Seta esquerda",
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .size(20.dp, 20.dp)
+                    .offset(-3.dp)
+            )
         }
+        Box(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .offset(-80.dp, 155.dp)
+                .size(150.dp, 60.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .background(Color.White.copy(alpha = 0.55f))
+        ){
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .offset(x = 10.dp)
+                    .size(23.dp, 23.dp)
+                    .clip(RoundedCornerShape(150.dp))
+                    .background(Color(0xFF435F3F))
+            )
+            Image(
+                painter = painterResource(id = R.drawable.leaf),
+                contentDescription = "Folha",
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .size(15.dp)
+                    .offset(14.dp)
+            )
+            Text(
+                text = "Desabafar",
+                color = Color(0xFF344530),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.ExtraBold,
+                fontFamily = AliceFontFamily,
+                modifier = Modifier
+                    .align(Alignment.Center)
+            )
+            Image(
+                painter = painterResource(id = R.drawable.arrow_right),
+                contentDescription = "Seta esquerda",
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .size(20.dp, 20.dp)
+                    .offset(-3.dp)
+            )
+        }
+        OutlinedTextField(
+            value = textoDigitado,
+            onValueChange = {textoDigitado = it},
+            placeholder = {Text("Escreva uma mensagem", fontFamily = AliceFontFamily)},
+            singleLine = true,
+            modifier = Modifier
+                .align(Alignment.Center)
+                .offset(y = 240.dp, x = -30.dp)
+                .size(250.dp, 50.dp),
+            shape = RoundedCornerShape(50.dp),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color(0xFF435F3F),
+                unfocusedBorderColor = Color(0xFF5C6754).copy(alpha = 0.5f),
+                focusedLabelColor = Color(0xFF2C3E35),
+                unfocusedContainerColor = Color.White.copy(alpha = 0.4f), // Efeito levemente translúcido
+                focusedContainerColor = Color.White.copy(alpha = 0.7f),
+                )
+        )
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .offset(x = -70.dp, y = -166.dp)
+                .size(30.dp, 30.dp)
+                .clip(RoundedCornerShape(150.dp))
+                .background(Color(0xFF435F3F))
+        )
+        Image(
+            painter = painterResource(id = R.drawable.paper_plane),
+            contentDescription = "Avião de papel",
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .offset(x = -76.dp, y = -169.dp)
+                .size(20.dp, 20.dp)
+        )
     }
+}
 
 
 // ============================================================================
@@ -798,7 +972,7 @@ class GlassCardAssets(
             // Fundo de vidro com opacidade mais uniforme
             paint.shader = LinearGradient(
                 0f, 0f, w, h,
-                intArrayOf(0x60FFFFFF, 0x0FFFFFF, 0x60FFFFFF),
+                intArrayOf(0x60FFFFFF, 0x45FFFFFF, 0x79FFFFFF),
                 floatArrayOf(0f, 0.5f, 1f),
                 Shader.TileMode.CLAMP
             )
