@@ -189,7 +189,7 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
                 Text(
                     text = "Olá Manoel",
                     color = Color(0xFF2C3E35),
-                    fontSize = 33.sp,
+                    fontSize = 30.sp,
                     fontFamily = AliceFontFamily,
                     fontWeight = FontWeight.ExtraBold,
                     modifier = Modifier
@@ -199,7 +199,7 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
                 Text(
                     text = "Vamos conversar?",
                     color = Color(0xFF5C6754),
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
                     fontFamily = AliceFontFamily,
                     fontWeight = FontWeight.ExtraBold,
                     modifier = Modifier
@@ -211,7 +211,7 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
                     contentDescription = "logo capvivara",
                     modifier = Modifier
                         .align(Alignment.TopCenter)
-                        .offset(y = 90.dp)
+                        .offset(y = 75.dp)
                         .size(160.dp)
 
 
@@ -221,8 +221,8 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .align(Alignment.Center) // Centralizado dentro do card principal (ou ajuste com .offset)
-                .offset( -80.dp,80.dp)
-                .size(150.dp, 60.dp)   // Largura e altura do card interno
+                .offset( -80.dp,60.dp)
+                .size(145.dp, 60.dp)   // Largura e altura do card interno
                 .clip(RoundedCornerShape(16.dp)) // Cantos arredondados
                 .background(Color.White.copy(alpha = 0.55f)) // Fundo translúcido
 
@@ -265,8 +265,8 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .align(Alignment.Center) // Centralizado dentro do card principal (ou ajuste com .offset)
-                .offset( 85.dp,80.dp)
-                .size(150.dp, 60.dp)   // Largura e altura do card interno
+                .offset( 85.dp,60.dp)
+                .size(145.dp, 60.dp)   // Largura e altura do card interno
                 .clip(RoundedCornerShape(16.dp)) // Cantos arredondados
                 .background(Color.White.copy(alpha = 0.55f)) // Fundo translúcido
 
@@ -308,8 +308,8 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .align(Alignment.Center)
-                .offset(85.dp, 155.dp)
-                .size(150.dp, 60.dp)
+                .offset(85.dp, 135.dp)
+                .size(145.dp, 60.dp)
                 .clip(RoundedCornerShape(16.dp))
                 .background(Color.White.copy(alpha = 0.55f))
         ){
@@ -351,7 +351,7 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .align(Alignment.Center)
-                .offset(-80.dp, 155.dp)
+                .offset(-80.dp, 135.dp)
                 .size(150.dp, 60.dp)
                 .clip(RoundedCornerShape(16.dp))
                 .background(Color.White.copy(alpha = 0.55f))
@@ -397,8 +397,8 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
             singleLine = true,
             modifier = Modifier
                 .align(Alignment.Center)
-                .offset(y = 240.dp, x = -30.dp)
-                .size(250.dp, 50.dp),
+                .offset(y = 220.dp, x = -30.dp)
+                .size(240.dp, 50.dp),
             shape = RoundedCornerShape(50.dp),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color(0xFF435F3F),
@@ -411,8 +411,8 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .offset(x = -70.dp, y = -166.dp)
-                .size(30.dp, 30.dp)
+                .offset(x = -70.dp, y = -186.dp)
+                .size(33.dp, 33.dp)
                 .clip(RoundedCornerShape(150.dp))
                 .background(Color(0xFF435F3F))
         )
@@ -421,8 +421,19 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
             contentDescription = "Avião de papel",
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .offset(x = -76.dp, y = -169.dp)
+                .offset(x = -78.dp, y = -192.dp)
                 .size(20.dp, 20.dp)
+        )
+        Text(
+            text = "Esta é uma conversa com um chatbot controlado\n              por ia e não com uma pessoa real.",
+            color = Color(0xFF344530),
+            fontSize = 12.sp,
+            lineHeight = 15.sp,
+            fontWeight = FontWeight.ExtraBold,
+            fontFamily = AliceFontFamily,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .offset(y = -140.dp)
         )
     }
 }
