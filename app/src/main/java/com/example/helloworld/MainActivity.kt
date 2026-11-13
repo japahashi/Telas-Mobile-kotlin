@@ -3,6 +3,7 @@ package com.example.helloworld
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.BlurMaskFilter
 import android.graphics.LinearGradient
 import android.graphics.Matrix
 import android.graphics.PorterDuff
@@ -46,7 +47,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
@@ -56,6 +59,7 @@ import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -156,7 +160,7 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
             )
         }
 
-        // ====================================================================
+        // ====================== ==============================================
         // CARD PRINCIPAL COM LIQUID GLASS
         // ====================================================================
 
@@ -165,6 +169,7 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
             cornerRadius = 24.dp,
             refractionHeight = 22.dp,
             refractionAmount = 22.dp,
+            edgeFill = 0.20f,
             isInteractive = false,
             modifier = Modifier
                 .align(Alignment.TopStart)
@@ -179,8 +184,7 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
             ) {
 
                 Text(
-                    text = "Olá Manoel",
-                    color = Color(0xFF2C3E35),
+                    text = "Olá, Manoel",
                     fontSize = 30.sp,
                     fontFamily = AliceFontFamily,
                     fontWeight = FontWeight.ExtraBold,
@@ -285,7 +289,7 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .align(Alignment.Center)
                 .offset(y = 220.dp, x = (-30).dp)
-                .size(240.dp, 50.dp)
+                .size(240.dp, 51.7.dp)
         ) {
 
             OutlinedTextField(
@@ -303,6 +307,21 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
                 },
 
                 singleLine = true,
+                leadingIcon = {
+                    Box(
+                        modifier = Modifier
+                            .size(22.dp)
+                            .clip(RoundedCornerShape(150.dp))
+                            .background(Color(0xFF435F3F)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.leaf),
+                            contentDescription = "Folha",
+                            modifier = Modifier.size(15.dp)
+                        )
+                    }
+                },
                 modifier = Modifier.fillMaxSize(),
                 shape = RoundedCornerShape(50.dp),
 
@@ -311,8 +330,8 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
                     unfocusedBorderColor = Color.White.copy(alpha = 0f),
                     focusedTextColor = Color(0xFF2C3E35),
                     unfocusedTextColor = Color(0xFF2C3E35),
-                    unfocusedContainerColor = Color.White.copy(alpha = 0.25f),
-                    focusedContainerColor = Color.White.copy(alpha = 0.25f)
+                    unfocusedContainerColor = Color.White.copy(alpha = 0.45f),
+                    focusedContainerColor = Color.White.copy(alpha = 0.45f)
                 )
             )
         }
@@ -376,6 +395,7 @@ fun LiquidActionButton(
     LiquidGlassSurface(
         engine = engine,
         glassOpacity = glassOpacity,
+        centerFill = 0.25f,
         cornerRadius = 16.dp,
         refractionHeight = 12.dp,
         refractionAmount = 12.dp,
@@ -456,6 +476,8 @@ fun LiquidGlassSurface(
     // Controla a sombra externa do componente.
     showShadow: Boolean = true,
     glassOpacity: Float = 1f,
+    centerFill: Float = 0f,
+    edgeFill: Float = 0f,
 
     content: @Composable BoxScope.() -> Unit
 ) {
@@ -498,7 +520,10 @@ fun LiquidGlassSurface(
         refAmountPx,
         showRim,
         showShadow,
-        glassOpacity
+        glassOpacity,
+        density,
+        centerFill,
+        edgeFill
     ) {
 
         if (cardSize.width > 0 && cardSize.height > 0) {
@@ -513,6 +538,9 @@ fun LiquidGlassSurface(
                 // PASSA A CONFIGURAÇÃO DO CONTORNO
                 showRim = showRim,
                 glassOpacity = glassOpacity,
+
+                centerFill = centerFill,
+                edgeFill = edgeFill,
 
                 shadowPadPx = shadowPadPx,
                 density = density.density,
@@ -1142,6 +1170,8 @@ class GlassCardAssets(
             refractionAmountPx: Float,
             showRim: Boolean,
             glassOpacity: Float,
+            centerFill: Float,
+            edgeFill: Float,
             shadowPadPx: Int,
             density: Float,
             bufferScale: Int
@@ -1293,7 +1323,9 @@ class GlassCardAssets(
                 cardH,
                 cornerRadiusPx,
                 density,
-                glassOpacity
+                glassOpacity,
+                centerFill,
+                edgeFill
             )
 
             return GlassCardAssets(
@@ -1516,7 +1548,9 @@ class GlassCardAssets(
             cardH: Int,
             cornerRadiusPx: Float,
             density: Float,
-            glassOpacity: Float
+            glassOpacity: Float,
+            centerFill: Float,
+            edgeFill: Float
 
         ): Bitmap {
 
@@ -1560,6 +1594,17 @@ class GlassCardAssets(
                 val alpha = (((color ushr 24) * glassOpacity).toInt()).coerceIn(0, 255)
                 return (color and 0x00FFFFFF) or (alpha shl 24)
             }
+            // OPACIDADE NAS BORDAS (card)
+            if (edgeFill > 0f) {
+                val ringW = 8f * density
+                val ringPaint = AndroidPaint(AndroidPaint.ANTI_ALIAS_FLAG).apply {
+                    style = AndroidPaint.Style.STROKE
+                    strokeWidth = ringW * 2f
+                    color = ((255 * edgeFill).toInt().coerceIn(0, 255) shl 24) or 0x00FFFFFF
+                    maskFilter = BlurMaskFilter(ringW * 0.6f, BlurMaskFilter.Blur.NORMAL)
+                }
+                canvas.drawRoundRect(RectF(0f, 0f, w, h), innerR, innerR, ringPaint)
+            }
 
             // FUNDO GRADIENTE DO VIDRO
             paint.shader = LinearGradient(
@@ -1602,7 +1647,7 @@ class GlassCardAssets(
                 rx,
                 intArrayOf(
                     adjustAlpha(0x79FFFFFF),
-                    adjustAlpha(0x49FFFFFF),
+                    adjustAlpha(0x45FFFFFF),
                     adjustAlpha(0x79FFFFFF)
                 ),
                 floatArrayOf(0f, 0.5f, 1f),
@@ -1631,6 +1676,15 @@ class GlassCardAssets(
             )
 
             paint.shader = null
+            // PREENCHIMENTO DO CENTRO (botões)
+            if (centerFill > 0f) {
+                val inset = min(w, h) * 0.22f
+                val fillPaint = AndroidPaint(AndroidPaint.ANTI_ALIAS_FLAG).apply {
+                    color = ((255 * centerFill).toInt().coerceIn(0, 255) shl 24) or 0x00FFFFFF
+                    maskFilter = BlurMaskFilter(inset * 0.8f, BlurMaskFilter.Blur.NORMAL)
+                }
+                canvas.drawRoundRect(RectF(inset, inset, w - inset, h - inset), innerR, innerR, fillPaint)
+            }
 
             return resultBmp
         }
