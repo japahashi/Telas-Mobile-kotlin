@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -47,19 +48,17 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -84,6 +83,7 @@ import android.graphics.Paint as AndroidPaint
 import android.graphics.Path as AndroidPath
 import android.graphics.Rect as AndroidRect
 import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.zIndex
 
 val AliceFontFamily = FontFamily(
     Font(R.font.alice_regular, FontWeight.Normal, FontStyle.Normal)
@@ -160,7 +160,7 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
             )
         }
 
-        // ====================== ==============================================
+        // ====================================================================
         // CARD PRINCIPAL COM LIQUID GLASS
         // ====================================================================
 
@@ -216,10 +216,9 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
         }
 
         // ====================================================================
-        // 4 BOTÕES COM LIQUID GLASS SEM CONTORNO MARCADO
+        // 4 BOTÕES COM LIQUID GLASS
         // ====================================================================
 
-        // Botão 1: Quero refletir
         LiquidActionButton(
             engine = engine,
             text = "Quero refletir",
@@ -234,7 +233,6 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
                 .size(145.dp, 60.dp)
         )
 
-        // Botão 2: Meu dia
         LiquidActionButton(
             engine = engine,
             text = "Meu dia",
@@ -248,7 +246,6 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
                 .size(145.dp, 60.dp)
         )
 
-        // Botão 3: Desabafar
         LiquidActionButton(
             engine = engine,
             text = "Desabafar",
@@ -262,7 +259,6 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
                 .size(150.dp, 60.dp)
         )
 
-        // Botão 4: Só na conversa
         LiquidActionButton(
             engine = engine,
             text = "Só na\nconversa",
@@ -308,19 +304,19 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
 
                 singleLine = true,
                 leadingIcon = {
-                    Box(
-                        modifier = Modifier
-                            .size(22.dp)
-                            .clip(RoundedCornerShape(150.dp))
-                            .background(Color(0xFF435F3F)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.leaf),
-                            contentDescription = "Folha",
-                            modifier = Modifier.size(15.dp)
-                        )
-                    }
+                    LiquidGlassIconButton(
+                        engine = engine,
+                        iconRes = R.drawable.leaf,
+                        iconDescription = "Folha",
+                        onClick = { /* Ação do ícone, se necessário */ },
+                        size = 32.dp,
+                        greenCircleSize = 23.dp,
+                        iconSize = 15.dp,
+                        glassOpacity = 1.6f,
+                        centerFill = 0.12f,
+                        edgeFill = 0.15f,
+                        isInteractive = false
+                    )
                 },
                 modifier = Modifier.fillMaxSize(),
                 shape = RoundedCornerShape(50.dp),
@@ -340,22 +336,22 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
         // BOTÃO DE ENVIAR
         // ====================================================================
 
-        Box(
+        LiquidGlassIconButton(
+            engine = engine,
+            iconRes = R.drawable.paper_plane,
+            iconDescription = "Avião de papel",
+            onClick = {
+                // Aqui ficará a ação de enviar a mensagem.
+            },
+            size = 45.dp,
+            greenCircleSize = 33.dp,
+            iconSize = 20.dp,
+            glassOpacity = 1.2f,
+            centerFill = 0.12f,
+            edgeFill = 0.15f,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .offset(x = (-70).dp, y = (-186).dp)
-                .size(33.dp, 33.dp)
-                .clip(RoundedCornerShape(150.dp))
-                .background(Color(0xFF435F3F))
-        )
-
-        Image(
-            painter = painterResource(id = R.drawable.paper_plane),
-            contentDescription = "Avião de papel",
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .offset(x = (-78).dp, y = (-192).dp)
-                .size(20.dp, 20.dp)
+                .offset(x = (-66).dp, y = (-182).dp)
         )
 
         // ====================================================================
@@ -377,6 +373,75 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
 }
 
 // ============================================================================
+// BOTÃO REUTILIZÁVEL: LIQUID GLASS + CÍRCULO VERDE + ÍCONE
+// ============================================================================
+
+@Composable
+fun LiquidGlassIconButton(
+    engine: LiquidBackdropEngine,
+    iconRes: Int,
+    iconDescription: String,
+    onClick: () -> Unit = {},
+    modifier: Modifier = Modifier,
+    size: Dp = 32.dp,
+    greenCircleSize: Dp = 23.dp,
+    iconSize: Dp = 15.dp,
+    greenColor: Color = Color(0xFF435F3F),
+    glassOpacity: Float = 1.6f,
+    centerFill: Float = 0.12f,
+    edgeFill: Float = 0.15f,
+    isInteractive: Boolean = true
+) {
+    // Guarda a posição do componente para o Liquid Glass enxergar
+    // a parte correta da imagem de fundo.
+    var iconPosition by remember {
+        mutableStateOf(Offset.Zero)
+    }
+
+    Box(
+        modifier = modifier
+            .size(size)
+            .onGloballyPositioned { coordinates ->
+                iconPosition = coordinates.positionInRoot()
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        // Camada externa de Liquid Glass.
+        LiquidGlassSurface(
+            engine = engine,
+            modifier = Modifier.fillMaxSize(),
+            cornerRadius = size / 2,
+            refractionHeight = 12.dp,
+            refractionAmount = 12.dp,
+            glassOpacity = glassOpacity,
+            centerFill = centerFill,
+            edgeFill = edgeFill,
+            showRim = false,
+            showShadow = false,
+            isInteractive = isInteractive,
+            onClick = onClick,
+            positionOverride = iconPosition
+        ) {}
+
+        // Círculo verde central.
+        Box(
+            modifier = Modifier
+                .size(greenCircleSize)
+                .clip(CircleShape)
+                .background(greenColor),
+            contentAlignment = Alignment.Center
+        ) {
+            // Ícone centralizado.
+            Image(
+                painter = painterResource(id = iconRes),
+                contentDescription = iconDescription,
+                modifier = Modifier.size(iconSize)
+            )
+        }
+    }
+}
+
+// ============================================================================
 // COMPONENTE AUXILIAR DOS BOTÕES
 // ============================================================================
 
@@ -391,7 +456,6 @@ fun LiquidActionButton(
     onClick: () -> Unit = {},
     glassOpacity: Float = 1f
 ) {
-
     LiquidGlassSurface(
         engine = engine,
         glassOpacity = glassOpacity,
@@ -401,50 +465,46 @@ fun LiquidActionButton(
         refractionAmount = 12.dp,
         isInteractive = true,
         onClick = onClick,
-
-        // Remove o contorno óptico e a sombra externa dos botões.
         showRim = false,
         showShadow = false,
-
         modifier = modifier
     ) {
-
         Box(modifier = Modifier.fillMaxSize()) {
 
-            // Círculo verde do ícone
-            Box(
+            // Componente reutilizável: vidro + círculo verde + ícone.
+            LiquidGlassIconButton(
+                engine = engine,
+                iconRes = iconRes,
+                iconDescription = iconDescription,
+                onClick = onClick,
+                size = 32.dp,
+                greenCircleSize = 23.dp,
+                iconSize = 15.dp,
+                glassOpacity = 1.6f,
+                centerFill = 0.12f,
+                edgeFill = 0.15f,
+                isInteractive = false,
                 modifier = Modifier
                     .align(Alignment.CenterStart)
-                    .offset(x = 10.dp)
-                    .size(23.dp)
-                    .clip(RoundedCornerShape(150.dp))
-                    .background(Color(0xFF435F3F))
+                    .offset(x = 5.5.dp)
+                    .zIndex(1f)
             )
 
-            // Ícone
-            Image(
-                painter = painterResource(id = iconRes),
-                contentDescription = iconDescription,
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .size(15.dp)
-                    .offset(x = 14.dp)
-            )
-
-            // Texto do botão
+            // Texto.
             Text(
                 text = text,
                 lineHeight = 15.sp,
                 color = Color(0xFF2C3E35),
-                fontSize = 14.sp,
+                fontSize = 11.sp,
                 fontWeight = FontWeight.ExtraBold,
                 fontFamily = AliceFontFamily,
                 modifier = Modifier
                     .align(Alignment.Center)
                     .offset(x = textOffsetX)
+                    .zIndex(3f)
             )
 
-            // Seta direita
+            // Seta.
             Image(
                 painter = painterResource(id = R.drawable.arrow_right),
                 contentDescription = "Seta",
@@ -452,6 +512,7 @@ fun LiquidActionButton(
                     .align(Alignment.CenterEnd)
                     .size(20.dp)
                     .offset(x = (-3).dp)
+                    .zIndex(3f)
             )
         }
     }
@@ -470,15 +531,12 @@ fun LiquidGlassSurface(
     refractionAmount: Dp = 22.dp,
     isInteractive: Boolean = true,
     onClick: (() -> Unit)? = null,
-
-    // Controla o brilho óptico da borda.
+    positionOverride: Offset? = null,
     showRim: Boolean = true,
-    // Controla a sombra externa do componente.
     showShadow: Boolean = true,
     glassOpacity: Float = 1f,
     centerFill: Float = 0f,
     edgeFill: Float = 0f,
-
     content: @Composable BoxScope.() -> Unit
 ) {
 
@@ -512,7 +570,6 @@ fun LiquidGlassSurface(
         32.dp.roundToPx()
     }
 
-    // GERA OS RECURSOS DO VIDRO
     val glassAssets = remember(
         cardSize,
         cornerPx,
@@ -534,14 +591,10 @@ fun LiquidGlassSurface(
                 cornerRadiusPx = cornerPx,
                 refractionHeightPx = refHeightPx,
                 refractionAmountPx = refAmountPx,
-
-                // PASSA A CONFIGURAÇÃO DO CONTORNO
                 showRim = showRim,
                 glassOpacity = glassOpacity,
-
                 centerFill = centerFill,
                 edgeFill = edgeFill,
-
                 shadowPadPx = shadowPadPx,
                 density = density.density,
                 bufferScale = engine.scaleFactor
@@ -565,7 +618,7 @@ fun LiquidGlassSurface(
         modifier = modifier
 
             .onGloballyPositioned { coords ->
-                cardPos = coords.positionInParent()
+                cardPos = positionOverride ?: coords.positionInParent()
                 cardSize = coords.size
             }
 
@@ -639,7 +692,6 @@ fun LiquidGlassSurface(
                 } else Modifier
             )
 
-            // EFEITO ELÁSTICO
             .graphicsLayer {
 
                 if (isInteractive && size.width > 0f && size.height > 0f) {
@@ -681,7 +733,6 @@ fun LiquidGlassSurface(
 
     ) {
 
-        // SOMBRA EXTERNA (pode ser desativada individualmente).
         if (showShadow) {
             Canvas(modifier = Modifier.fillMaxSize()) {
                 val assets = glassAssets ?: return@Canvas
@@ -706,7 +757,6 @@ fun LiquidGlassSurface(
 
                 val assets = glassAssets ?: return@Canvas
 
-                // IMAGEM REFRATADA
                 val refractedBmp = assets.updateRefractedBitmap(
                     engine = engine,
                     cardX = cardPos.x,
@@ -730,7 +780,6 @@ fun LiquidGlassSurface(
                     )
                 }
 
-                // BRILHO AO TOCAR
                 if (
                     pressProgress.value > 0.01f &&
                     lastTouchLocal != Offset.Unspecified
@@ -750,7 +799,6 @@ fun LiquidGlassSurface(
                     )
                 }
 
-                // CAMADA DE VIDRO
                 drawImage(
                     image = assets.innerGlassOverlayBitmap,
                     dstSize = IntSize(
@@ -1272,7 +1320,6 @@ class GlassCardAssets(
 
                         val disp = -refAmountScaled * lensCurve
 
-                        // REFRAÇÃO CONTINUA FUNCIONANDO
                         offsetX_R[i] = nx * disp * 1.04f
                         offsetY_R[i] = ny * disp * 1.04f
 
@@ -1281,10 +1328,6 @@ class GlassCardAssets(
 
                         offsetX_B[i] = nx * disp * 0.96f
                         offsetY_B[i] = ny * disp * 0.96f
-
-                        // ====================================================
-                        // CONTROLE DO CONTORNO
-                        // ====================================================
 
                         if (showRim) {
 
@@ -1302,7 +1345,6 @@ class GlassCardAssets(
 
                         } else {
 
-                            // REMOVE O BRILHO DA BORDA
                             rimEdgeFactor[i] = 0
                             causticBoost[i] = 0
                         }
@@ -1332,19 +1374,14 @@ class GlassCardAssets(
                 lensW = lensW,
                 lensH = lensH,
                 bufferScale = bufferScale,
-
                 offsetX_R = offsetX_R,
                 offsetY_R = offsetY_R,
-
                 offsetX_G = offsetX_G,
                 offsetY_G = offsetY_G,
-
                 offsetX_B = offsetX_B,
                 offsetY_B = offsetY_B,
-
                 rimEdgeFactor = rimEdgeFactor,
                 causticBoost = causticBoost,
-
                 outerShadowBitmap = outerShadowBmp.asImageBitmap(),
                 innerGlassOverlayBitmap = innerOverlayBmp.asImageBitmap()
             )
@@ -1590,11 +1627,13 @@ class GlassCardAssets(
             val paint = AndroidPaint(
                 AndroidPaint.ANTI_ALIAS_FLAG
             )
+
             fun adjustAlpha(color: Int): Int {
                 val alpha = (((color ushr 24) * glassOpacity).toInt()).coerceIn(0, 255)
                 return (color and 0x00FFFFFF) or (alpha shl 24)
             }
-            // OPACIDADE NAS BORDAS (card)
+
+            // OPACIDADE NAS BORDAS
             if (edgeFill > 0f) {
                 val ringW = 8f * density
                 val ringPaint = AndroidPaint(AndroidPaint.ANTI_ALIAS_FLAG).apply {
@@ -1676,7 +1715,8 @@ class GlassCardAssets(
             )
 
             paint.shader = null
-            // PREENCHIMENTO DO CENTRO (botões)
+
+            // PREENCHIMENTO DO CENTRO
             if (centerFill > 0f) {
                 val inset = min(w, h) * 0.22f
                 val fillPaint = AndroidPaint(AndroidPaint.ANTI_ALIAS_FLAG).apply {
