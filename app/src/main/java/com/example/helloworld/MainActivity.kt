@@ -78,6 +78,7 @@ import kotlin.math.roundToInt
 import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.math.tanh
+import com.example.helloworld.view.SecondScreen
 import android.graphics.Canvas as AndroidCanvas
 import android.graphics.Paint as AndroidPaint
 import android.graphics.Path as AndroidPath
@@ -98,7 +99,7 @@ class MainActivity : ComponentActivity() {
             HelloWorldTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
 
-                    CleanLiquidShowcase(
+                    SecondScreen(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding)
@@ -226,7 +227,7 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
             iconDescription = "Nuvem",
             textOffsetX = 9.dp,
             onClick = { /* Ação ao clicar */ },
-            glassOpacity = 1.5f,
+            glassOpacity = 1.3f,
             modifier = Modifier
                 .align(Alignment.Center)
                 .offset(x = (-80).dp, y = 60.dp)
@@ -239,7 +240,7 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
             iconRes = R.drawable.sun,
             iconDescription = "Sol",
             onClick = { /* Ação ao clicar */ },
-            glassOpacity = 1.5f,
+            glassOpacity = 1.3f,
             modifier = Modifier
                 .align(Alignment.Center)
                 .offset(x = 85.dp, y = 60.dp)
@@ -252,7 +253,7 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
             iconRes = R.drawable.leaf,
             iconDescription = "Folha",
             onClick = { /* Ação ao clicar */ },
-            glassOpacity = 1.5f,
+            glassOpacity = 1.3f,
             modifier = Modifier
                 .align(Alignment.Center)
                 .offset(x = (-80).dp, y = 135.dp)
@@ -265,7 +266,7 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
             iconRes = R.drawable.heart,
             iconDescription = "Coração",
             onClick = { /* Ação ao clicar */ },
-            glassOpacity = 1.5f,
+            glassOpacity = 1.3f,
             modifier = Modifier
                 .align(Alignment.Center)
                 .offset(x = 85.dp, y = 135.dp)
@@ -282,6 +283,7 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
             refractionHeight = 14.dp,
             refractionAmount = 14.dp,
             isInteractive = false,
+            glassOpacity = 0.7f,
             modifier = Modifier
                 .align(Alignment.Center)
                 .offset(y = 220.dp, x = (-30).dp)
@@ -291,7 +293,6 @@ fun CleanLiquidShowcase(modifier: Modifier = Modifier) {
             OutlinedTextField(
                 value = textoDigitado,
                 onValueChange = { textoDigitado = it },
-
                 placeholder = {
                     Text(
                         text = "Escreva uma mensagem",
@@ -392,6 +393,7 @@ fun LiquidGlassIconButton(
     edgeFill: Float = 0.15f,
     isInteractive: Boolean = true
 ) {
+
     // Guarda a posição do componente para o Liquid Glass enxergar
     // a parte correta da imagem de fundo.
     var iconPosition by remember {
@@ -440,6 +442,55 @@ fun LiquidGlassIconButton(
         }
     }
 }
+@Composable
+fun LiquidGlassCircle(
+    engine: LiquidBackdropEngine,
+    onClick: () -> Unit = {},
+    modifier: Modifier = Modifier,
+    size: Dp = 40.dp,
+    greenCircleSize: Dp = 29.dp,
+    greenColor: Color = Color(0xFF435F3F),
+    glassOpacity: Float = 1.6f,
+    centerFill: Float = 0.12f,
+    edgeFill: Float = 0.15f,
+    isInteractive: Boolean = false
+) {
+    var circlePosition by remember {
+        mutableStateOf(Offset.Zero)
+    }
+
+    Box(
+        modifier = modifier
+            .size(size)
+            .onGloballyPositioned { coordinates ->
+                circlePosition = coordinates.positionInRoot()
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        LiquidGlassSurface(
+            engine = engine,
+            modifier = Modifier.fillMaxSize(),
+            cornerRadius = size / 2,
+            refractionHeight = 12.dp,
+            refractionAmount = 12.dp,
+            glassOpacity = glassOpacity,
+            centerFill = centerFill,
+            edgeFill = edgeFill,
+            showRim = false,
+            showShadow = false,
+            isInteractive = isInteractive,
+            onClick = onClick,
+            positionOverride = circlePosition
+        ) {}
+
+        Box(
+            modifier = Modifier
+                .size(greenCircleSize)
+                .clip(CircleShape)
+                .background(greenColor)
+        )
+    }
+}
 
 // ============================================================================
 // COMPONENTE AUXILIAR DOS BOTÕES
@@ -480,7 +531,7 @@ fun LiquidActionButton(
                 size = 32.dp,
                 greenCircleSize = 23.dp,
                 iconSize = 15.dp,
-                glassOpacity = 1.6f,
+                glassOpacity = 1.5f,
                 centerFill = 0.12f,
                 edgeFill = 0.15f,
                 isInteractive = false,
@@ -495,7 +546,7 @@ fun LiquidActionButton(
                 text = text,
                 lineHeight = 15.sp,
                 color = Color(0xFF2C3E35),
-                fontSize = 11.sp,
+                fontSize = 12.5.sp,
                 fontWeight = FontWeight.ExtraBold,
                 fontFamily = AliceFontFamily,
                 modifier = Modifier
@@ -1717,13 +1768,59 @@ class GlassCardAssets(
             paint.shader = null
 
             // PREENCHIMENTO DO CENTRO
+            // PREENCHIMENTO CENTRAL COM TRANSIÇÃO SUAVE
             if (centerFill > 0f) {
-                val inset = min(w, h) * 0.22f
-                val fillPaint = AndroidPaint(AndroidPaint.ANTI_ALIAS_FLAG).apply {
-                    color = ((255 * centerFill).toInt().coerceIn(0, 255) shl 24) or 0x00FFFFFF
-                    maskFilter = BlurMaskFilter(inset * 0.8f, BlurMaskFilter.Blur.NORMAL)
+
+                val radius = (w / 2f).coerceAtLeast(1f)
+
+                val centerAlpha = (255 * centerFill)
+                    .toInt()
+                    .coerceIn(0, 255)
+
+                val middleAlpha = (centerAlpha * 0.80f)
+                    .toInt()
+                    .coerceIn(0, 255)
+
+                val edgeAlpha = (centerAlpha * 0.55f)
+                    .toInt()
+                    .coerceIn(0, 255)
+
+                val centerGradient = RadialGradient(
+                    w / 2f,
+                    h / 2f,
+                    radius,
+                    intArrayOf(
+                        (centerAlpha shl 24) or 0x00FFFFFF,
+                        (middleAlpha shl 24) or 0x00FFFFFF,
+                        (edgeAlpha shl 24) or 0x00FFFFFF
+                    ),
+                    floatArrayOf(0f, 0.70f, 1f),
+                    Shader.TileMode.CLAMP
+                )
+
+                val gradientMatrix = Matrix().apply {
+                    setScale(
+                        1f,
+                        h / w,
+                        w / 2f,
+                        h / 2f
+                    )
                 }
-                canvas.drawRoundRect(RectF(inset, inset, w - inset, h - inset), innerR, innerR, fillPaint)
+
+                centerGradient.setLocalMatrix(gradientMatrix)
+
+                val fillPaint = AndroidPaint(
+                    AndroidPaint.ANTI_ALIAS_FLAG
+                ).apply {
+                    shader = centerGradient
+                }
+
+                canvas.drawRoundRect(
+                    RectF(0f, 0f, w, h),
+                    innerR,
+                    innerR,
+                    fillPaint
+                )
             }
 
             return resultBmp
