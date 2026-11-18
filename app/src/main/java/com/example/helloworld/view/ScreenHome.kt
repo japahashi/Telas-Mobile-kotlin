@@ -4,11 +4,15 @@ package com.example.helloworld.view
 import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -21,6 +25,7 @@ import androidx.compose.ui.zIndex
 import com.example.helloworld.*
 import com.example.helloworld.R
 import com.example.helloworld.AliceFontFamily
+import java.nio.file.WatchEvent
 import kotlin.math.roundToInt
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
@@ -276,7 +281,7 @@ fun SecondScreen(modifier: Modifier = Modifier) {
                     centerFill = 0.3f,
                     edgeFill = 0.15f,
                     glassOpacity = 0.8f,
-                    isInteractive = false,
+                    isInteractive = true,
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .offset(x = 0.dp, y = 300.dp)
@@ -314,6 +319,27 @@ fun SecondScreen(modifier: Modifier = Modifier) {
                                 .zIndex(1f)
                         )
                     }
+                }
+                // BOTÃO VERDE NO FINAL DO CARD
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(bottom = 15.dp)
+                        .width(120.dp)
+                        .height(50.dp)
+                        .clip(RoundedCornerShape(18.dp))
+                        .background(Color(0xFF435F3F)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Bloom",
+                        fontFamily = AliceFontFamily,
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 19.sp,
+                        color = Color.White,
+                        modifier = Modifier
+                            .offset(x = 9.dp)
+                    )
                 }
             }
         }
