@@ -85,6 +85,7 @@ import android.graphics.Path as AndroidPath
 import android.graphics.Rect as AndroidRect
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.zIndex
+import com.example.helloworld.view.ThirdScreen
 
 val AliceFontFamily = FontFamily(
     Font(R.font.alice_regular, FontWeight.Normal, FontStyle.Normal)
@@ -99,7 +100,7 @@ class MainActivity : ComponentActivity() {
             HelloWorldTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
 
-                    SecondScreen(
+                    ThirdScreen(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding)

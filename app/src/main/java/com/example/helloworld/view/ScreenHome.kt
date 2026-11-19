@@ -14,8 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
@@ -106,10 +108,10 @@ fun SecondScreen(modifier: Modifier = Modifier) {
                     size = 45.dp,
                     greenCircleSize = 32.dp,
                     greenColor = Color(0xFF435F3F),
-                    glassOpacity = 1.6f,
+                    glassOpacity = 1f,
                     centerFill = 0.12f,
                     edgeFill = 0.15f,
-                    isInteractive = false,
+                    isInteractive = true,
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .offset(x = (-10).dp, y = 0.dp)
@@ -142,7 +144,7 @@ fun SecondScreen(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .offset(x = 0.dp, y = 90.dp)
-                        .size(330.dp, 55.dp)
+                        .size(360.dp, 52.dp)
                 ) {
                     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -166,10 +168,10 @@ fun SecondScreen(modifier: Modifier = Modifier) {
                             greenCircleSize = 17.dp,
                             iconSize = 13.dp,
                             greenColor = Color(0xFF435F3F),
-                            glassOpacity = 1.6f,
+                            glassOpacity = 1.1f,
                             centerFill = 0.12f,
                             edgeFill = 0.15f,
-                            isInteractive = false,
+                            isInteractive = true,
                             modifier = Modifier
                                 .align(Alignment.CenterEnd)
                                 .offset(x = (-10).dp)
@@ -191,7 +193,7 @@ fun SecondScreen(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .offset(x = 0.dp, y = 160.dp)
-                        .size(330.dp, 55.dp)
+                        .size(360.dp, 52.dp)
                 ) {
                     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -215,10 +217,10 @@ fun SecondScreen(modifier: Modifier = Modifier) {
                             greenCircleSize = 17.dp,
                             iconSize = 13.dp,
                             greenColor = Color(0xFF435F3F),
-                            glassOpacity = 1.6f,
+                            glassOpacity = 1.1f,
                             centerFill = 0.12f,
                             edgeFill = 0.15f,
-                            isInteractive = false,
+                            isInteractive = true,
                             modifier = Modifier
                                 .align(Alignment.CenterEnd)
                                 .offset(x = (-10).dp)
@@ -238,7 +240,7 @@ fun SecondScreen(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .offset(x = 0.dp, y = 230.dp)
-                        .size(330.dp, 55.dp)
+                        .size(360.dp, 52.dp)
                 ) {
                     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -262,10 +264,10 @@ fun SecondScreen(modifier: Modifier = Modifier) {
                             greenCircleSize = 17.dp,
                             iconSize = 13.dp,
                             greenColor = Color(0xFF435F3F),
-                            glassOpacity = 1.6f,
+                            glassOpacity = 1.1f,
                             centerFill = 0.12f,
                             edgeFill = 0.15f,
-                            isInteractive = false,
+                            isInteractive = true,
                             modifier = Modifier
                                 .align(Alignment.CenterEnd)
                                 .offset(x = (-10).dp)
@@ -285,12 +287,12 @@ fun SecondScreen(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .offset(x = 0.dp, y = 300.dp)
-                        .size(330.dp, 55.dp)
+                        .size(360.dp, 52.dp)
                 ) {
                     Box(modifier = Modifier.fillMaxSize()) {
 
                         Text(
-                            text = "É normal a visão clarear?",
+                            text = "Dor no lado esquerdo do om...",
                             fontFamily = AliceFontFamily,
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 19.sp,
@@ -309,10 +311,10 @@ fun SecondScreen(modifier: Modifier = Modifier) {
                             greenCircleSize = 17.dp,
                             iconSize = 13.dp,
                             greenColor = Color(0xFF435F3F),
-                            glassOpacity = 1.6f,
+                            glassOpacity = 1.1f,
                             centerFill = 0.12f,
                             edgeFill = 0.15f,
-                            isInteractive = false,
+                            isInteractive = true,
                             modifier = Modifier
                                 .align(Alignment.CenterEnd)
                                 .offset(x = (-10).dp)
@@ -327,10 +329,20 @@ fun SecondScreen(modifier: Modifier = Modifier) {
                         .padding(bottom = 15.dp)
                         .width(120.dp)
                         .height(50.dp)
+                        .offset(y = 14.dp, x = -10.dp)
                         .clip(RoundedCornerShape(18.dp))
                         .background(Color(0xFF435F3F)),
                     contentAlignment = Alignment.Center
                 ) {
+
+                    Image(
+                        painter = painterResource(id = R.drawable.add),
+                        contentDescription = "Adicionar",
+                        modifier = Modifier
+                            .size(20.dp)
+                            .align(Alignment.CenterStart)
+                            .offset(x = 15.dp)
+                    )
                     Text(
                         text = "Bloom",
                         fontFamily = AliceFontFamily,
