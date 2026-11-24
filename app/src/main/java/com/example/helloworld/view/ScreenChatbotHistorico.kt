@@ -1,4 +1,3 @@
-
 package com.example.helloworld.view
 
 import android.annotation.SuppressLint
@@ -6,15 +5,16 @@ import android.graphics.BitmapFactory
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -24,16 +24,21 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
-import com.example.helloworld.*
 import com.example.helloworld.R
-import com.example.helloworld.AliceFontFamily
-import java.nio.file.WatchEvent
+import com.example.helloworld.ui.components.LiquidBackdropEngine
+import com.example.helloworld.ui.components.LiquidGlassCircle
+import com.example.helloworld.ui.components.LiquidGlassIconButton
+import com.example.helloworld.ui.components.LiquidGlassSurface
+import com.example.helloworld.ui.theme.AliceFontFamily
 import kotlin.math.roundToInt
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun SecondScreen(modifier: Modifier = Modifier) {
+fun ScreenChatbotHistorico(
+    modifier: Modifier = Modifier,
+    onNavigateToConversa: () -> Unit = {}
+) {
 
     val context = LocalContext.current
     val density = LocalDensity.current
@@ -140,7 +145,8 @@ fun SecondScreen(modifier: Modifier = Modifier) {
                     centerFill = 0.3f,
                     edgeFill = 0.15f,
                     glassOpacity = 0.8f,
-                    isInteractive = false,
+                    isInteractive = true,
+                    onClick = onNavigateToConversa,
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .offset(x = 0.dp, y = 90.dp)
@@ -189,7 +195,8 @@ fun SecondScreen(modifier: Modifier = Modifier) {
                     centerFill = 0.3f,
                     edgeFill = 0.15f,
                     glassOpacity = 0.8f,
-                    isInteractive = false,
+                    isInteractive = true,
+                    onClick = onNavigateToConversa,
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .offset(x = 0.dp, y = 160.dp)
@@ -236,7 +243,8 @@ fun SecondScreen(modifier: Modifier = Modifier) {
                     centerFill = 0.3f,
                     edgeFill = 0.15f,
                     glassOpacity = 0.8f,
-                    isInteractive = false,
+                    isInteractive = true,
+                    onClick = onNavigateToConversa,
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .offset(x = 0.dp, y = 230.dp)
@@ -284,6 +292,7 @@ fun SecondScreen(modifier: Modifier = Modifier) {
                     edgeFill = 0.15f,
                     glassOpacity = 0.8f,
                     isInteractive = true,
+                    onClick = onNavigateToConversa,
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .offset(x = 0.dp, y = 300.dp)
@@ -331,7 +340,8 @@ fun SecondScreen(modifier: Modifier = Modifier) {
                         .height(50.dp)
                         .offset(y = 14.dp, x = -10.dp)
                         .clip(RoundedCornerShape(18.dp))
-                        .background(Color(0xFF435F3F)),
+                        .background(Color(0xFF435F3F))
+                        .clickable(onClick = onNavigateToConversa),
                     contentAlignment = Alignment.Center
                 ) {
 
