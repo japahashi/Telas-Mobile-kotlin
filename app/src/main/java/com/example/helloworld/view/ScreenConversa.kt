@@ -103,7 +103,7 @@ fun ScreenConversa(
             ) {
                 Column(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(28.dp * escalaVertical)
+                    verticalArrangement = Arrangement.spacedBy(10.dp * escalaVertical)
                 ) {
                     ConversationMessage(
                         engine = engine,
@@ -114,9 +114,9 @@ fun ScreenConversa(
                         isBot = true,
                         horizontalScale = escalaHorizontal,
                         verticalScale = escalaVertical,
-                        bubbleHeight = 107.dp * escalaVertical,
+                        bubbleHeight = 125.dp * escalaVertical,
                         onAvatarClick = onNavigateToInicio,
-                        onBubbleClick = onNavigateToMeusBlooms
+                        onBubbleClick = onNavigateToMeusBlooms,
                     )
 
                     ConversationMessage(
@@ -128,17 +128,17 @@ fun ScreenConversa(
                         isBot = false,
                         horizontalScale = escalaHorizontal,
                         verticalScale = escalaVertical,
-                        bubbleHeight = 133.dp * escalaVertical
+                        bubbleHeight = 135.dp * escalaVertical,
                     )
                 }
 
                 BlockedMessage(
                     engine = engine,
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(0.98f)
                         .height(127.dp * escalaVertical),
                     horizontalScale = escalaHorizontal,
-                    verticalScale = escalaVertical
+                    verticalScale = escalaVertical,
                 )
 
                 MessageComposer(
@@ -194,7 +194,7 @@ private fun ConversationMessage(
         LiquidGlassSurface(
             engine = engine,
             modifier = Modifier
-                .weight(1f)
+                .width(235.dp)
                 .height(bubbleHeight),
             cornerRadius = 24.dp * horizontalScale,
             refractionHeight = 18.dp * horizontalScale,
@@ -209,10 +209,10 @@ private fun ConversationMessage(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        horizontal = 15.dp * horizontalScale,
+                        horizontal = 18.dp * horizontalScale,
                         vertical = 12.dp * verticalScale
                     ),
-                verticalArrangement = Arrangement.spacedBy(5.dp * verticalScale)
+                verticalArrangement = Arrangement.spacedBy(6.dp * verticalScale)
             ) {
                 Text(
                     text = name,
@@ -227,16 +227,16 @@ private fun ConversationMessage(
                     color = Color(0xFF596B57),
                     fontFamily = AliceFontFamily,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 13.sp * horizontalScale,
-                    lineHeight = 15.5.sp * horizontalScale
+                    fontSize = 10.sp,
+                    lineHeight = 15.5.sp,
                 )
                 Text(
                     text = time,
                     color = Color(0xFF596B57),
                     fontFamily = AliceFontFamily,
                     fontWeight = FontWeight.ExtraBold,
-                    fontSize = 10.sp * horizontalScale,
-                    lineHeight = 12.sp * horizontalScale
+                    fontSize = 13.sp * horizontalScale,
+                    lineHeight = 35.sp * horizontalScale
                 )
             }
         }
@@ -269,8 +269,7 @@ private fun ConversationAvatar(
         cornerRadius = 25.dp * scale,
         refractionHeight = 10.dp * scale,
         refractionAmount = 10.dp * scale,
-        glassOpacity = 1.25f,
-        centerFill = 0.1f,
+        glassOpacity = 1.60f,
         edgeFill = 0.15f,
         isInteractive = onClick != null,
         onClick = onClick,
@@ -398,9 +397,9 @@ private fun MessageComposer(
                 .width(240.dp)
                 .fillMaxHeight(),
             cornerRadius = 50.dp,
-            refractionHeight = 14.dp,
+            refractionHeight = 1.dp,
             refractionAmount = 14.dp,
-            glassOpacity = 0.7f,
+            glassOpacity = 1.2f,
             isInteractive = false
         ) {
             OutlinedTextField(

@@ -12,11 +12,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.helloworld.view.ScreenConversa
 import com.example.helloworld.view.ScreenChatbot
 import com.example.helloworld.view.ScreenChatbotHistorico
+import com.example.helloworld.view.ScreenSeJuntarEtapa2
+
 
 object AppRoutes {
     const val Inicio = "inicio"
     const val Conversa = "conversa"
     const val MeusBlooms = "meus_blooms"
+    const val SeJuntarEtapa2 = "etapa_2"
 }
 
 @Composable
@@ -24,7 +27,7 @@ fun AppNavigation(navController: NavHostController = rememberNavController()) {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = AppRoutes.Conversa,
+            startDestination = AppRoutes.SeJuntarEtapa2,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
@@ -51,6 +54,9 @@ fun AppNavigation(navController: NavHostController = rememberNavController()) {
                 ScreenChatbotHistorico(
                     onNavigateToConversa = { navController.navigateSingleTop(AppRoutes.Conversa) }
                 )
+            }
+            composable(AppRoutes.SeJuntarEtapa2) {
+                ScreenSeJuntarEtapa2()
             }
         }
     }
