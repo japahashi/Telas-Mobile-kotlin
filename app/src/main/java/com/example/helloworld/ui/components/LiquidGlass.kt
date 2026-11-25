@@ -1,8 +1,6 @@
 package com.example.helloworld.ui.components
 
-import android.annotation.SuppressLint
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.BlurMaskFilter
 import android.graphics.LinearGradient
 import android.graphics.Matrix
@@ -20,16 +18,11 @@ import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -52,13 +45,9 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.layout.positionInRoot
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -77,7 +66,6 @@ import android.graphics.Canvas as AndroidCanvas
 import android.graphics.Paint as AndroidPaint
 import android.graphics.Path as AndroidPath
 import android.graphics.Rect as AndroidRect
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.zIndex
 import com.example.helloworld.R
 import com.example.helloworld.ui.theme.AliceFontFamily
@@ -265,7 +253,7 @@ fun LiquidActionButton(
 
             // Seta.
             Image(
-                painter = painterResource(id = R.drawable.arrow_right),
+                painter = painterResource(id = R.drawable.arrow_right_green),
                 contentDescription = "Seta",
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
