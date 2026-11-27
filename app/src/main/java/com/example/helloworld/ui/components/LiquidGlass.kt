@@ -118,7 +118,7 @@ fun LiquidGlassIconButton(
             showShadow = false,
             isInteractive = isInteractive,
             onClick = onClick,
-            positionOverride = iconPosition
+            positionOverride = iconPosition,
         ) {}
 
         // Círculo verde central.

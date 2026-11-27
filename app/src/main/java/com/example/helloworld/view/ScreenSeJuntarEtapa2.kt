@@ -182,12 +182,12 @@ fun ScreenSeJuntarEtapa2(
             ){
                 LiquidGlassIconButton(
                     engine = engine,
-                    iconRes = R.drawable.check,
-                    iconDescription = "check",
+                    iconRes = R.drawable.two,
+                    iconDescription = "dois",
                     onClick = {},
                     size = 23.dp,
                     greenCircleSize = 15.dp,
-                    iconSize = 10.dp,
+                    iconSize = 7.dp,
                     glassOpacity = 1.2f,
                     centerFill = 0.12f,
                     edgeFill = 0.15f,
@@ -225,12 +225,12 @@ fun ScreenSeJuntarEtapa2(
             ){
                 LiquidGlassIconButton(
                     engine = engine,
-                    iconRes = R.drawable.check,
-                    iconDescription = "check",
+                    iconRes = R.drawable.three,
+                    iconDescription = "tres",
                     onClick = {},
                     size = 23.dp,
                     greenCircleSize = 15.dp,
-                    iconSize = 10.dp,
+                    iconSize = 7.dp,
                     glassOpacity = 1.2f,
                     centerFill = 0.12f,
                     edgeFill = 0.15f,
@@ -238,6 +238,7 @@ fun ScreenSeJuntarEtapa2(
                     modifier = Modifier
                         .align(Alignment.CenterStart)
                         .offset(x = 5.dp)
+
 
                 )
                 Text(
@@ -265,7 +266,7 @@ fun ScreenSeJuntarEtapa2(
                 isInteractive = false,
                 modifier = Modifier
                     .align(Alignment.TopStart)
-                    .offset(y = 70.dp, x = 25.dp)
+                    .offset(y = 87.dp, x = 25.dp)
             )
             Text(
                 text = "Código valido",
@@ -275,7 +276,7 @@ fun ScreenSeJuntarEtapa2(
                 fontSize = 18.sp,
                 modifier = Modifier
                     .align(Alignment.TopStart)
-                    .offset(x = 60.dp, y = 73.dp)
+                    .offset(x = 60.dp, y = 90.dp)
             )
 
             Image(
@@ -442,7 +443,7 @@ fun ScreenSeJuntarEtapa2(
             isInteractive = false,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .size(375.dp, 150.dp)
+                .size(375.dp, 145.dp)
                 .offset(y = -30.dp)
 
         ) {
@@ -479,7 +480,7 @@ fun ScreenSeJuntarEtapa2(
 
                     Text(
                         text = "Sua privacidade continua sendo sua",
-                        fontSize = 18.sp,
+                        fontSize = 16.sp,
                         lineHeight = 22.sp,
                         fontFamily = AliceFontFamily,
                         fontWeight = FontWeight.ExtraBold,
@@ -488,7 +489,7 @@ fun ScreenSeJuntarEtapa2(
 
                     Text(
                         text = "Ao entrar uma instituição, apenas informações gerais da comunidade são compartilhadas.",
-                        fontSize = 16.sp,
+                        fontSize = 15.sp,
                         lineHeight = 21.sp,
                         fontFamily = AliceFontFamily,
                         fontWeight = FontWeight.ExtraBold,
